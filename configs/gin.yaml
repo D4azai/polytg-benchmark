@@ -1,0 +1,63 @@
+experiment:
+  name: graph_benchmark
+
+data:
+  input_path: data/raw/polytg.csv
+  processed_path: data/processed/polytg_cleaned.csv
+  smiles_column: smiles
+  target_column: tg
+  target_unit: kelvin
+  aggregate_repeats: none
+
+split:
+  strategy: random
+  seed: 42
+  train_fraction: 0.70
+  validation_fraction: 0.15
+  test_fraction: 0.15
+
+representation:
+  name: molecular_graph
+  parameter_sets:
+    molecular_graph: {}
+
+model:
+  name: gin
+  parameters:
+    hidden_dim: 128
+    num_layers: 4
+    dropout: 0.20
+  parameter_sets:
+    gin:
+      hidden_dim: 128
+      num_layers: 4
+      dropout: 0.20
+    gcn:
+      hidden_dim: 128
+      num_layers: 4
+      dropout: 0.20
+
+training:
+  seed: 42
+  deterministic: true
+  device: auto
+  batch_size: 32
+  max_epochs: 300
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  early_stopping_patience: 30
+  min_delta: 0.01
+  lr_patience: 10
+  lr_factor: 0.5
+
+benchmark:
+  representations: [molecular_graph]
+  models: [gin, gcn]
+  split_strategies: [random, scaffold]
+  seeds: [42, 1337, 2027]
+
+outputs:
+  raw_dir: results/raw
+  figures_dir: results/figures
+  benchmark_file: results/benchmark_results.csv
+

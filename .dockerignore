@@ -1,0 +1,15 @@
+.git
+.idea
+.venv
+__pycache__
+.pytest_cache
+.ruff_cache
+*.egg-info
+data/raw/*
+data/processed/*
+results/raw/*
+results/figures/*
+results/tables/*
+results/benchmark_results.csv
+results/REPORT.md
+
